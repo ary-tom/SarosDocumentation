@@ -19,8 +19,7 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: "Saros SDK Documentation",
-  description: "Comprehensive developer documentation for Saros Finance SDKs - Build on Solana with ease",
-  generator: "v0.app",
+  description: "Comprehensive developer documentation for Saros Finance SDKs - Build on Solana with ease"
 }
 
 export default function RootLayout({
