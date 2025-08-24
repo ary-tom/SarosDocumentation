@@ -1,6 +1,6 @@
 # Saros Finance Developer Documentation
 <p align="center">
-  ![Saros Banner](public/banner.jpg)
+  <img src="public/banner.jpg" alt="Saros Banner" />
 </p>
 
 <p align="center">
