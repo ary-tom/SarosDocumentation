@@ -1,0 +1,2 @@
+overrides:
+  '@saros-finance/sdk': link:../docs/saros-sdk
