@@ -1,6 +1,7 @@
 # Saros Finance Developer Documentation
-
-![Saros Banner](public/banner.jpg)
+<p align="center">
+  ![Saros Banner](public/banner.jpg)
+</p>
 
 <p align="center">
   <a href="https://saros.finance" target="_blank">
