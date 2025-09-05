@@ -6,14 +6,22 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-import { Input } from "@/components/ui/input"
 import { Play, RotateCcw, Copy, Terminal, Loader2, Wallet, AlertCircle } from "lucide-react"
 import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js"
 import { useWallet } from '@solana/wallet-adapter-react'
 import { NetworkSelector } from "@/components/network-selector"
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { useTheme } from "next-themes"
+import dynamic from 'next/dynamic'
+
+const CodeEditor = dynamic(
+  () => import('@uiw/react-textarea-code-editor').then((mod) => mod.default),
+  { ssr: false }
+)
 
 export default function PlaygroundPage() {
+  const { theme } = useTheme()
   const [selectedTemplate, setSelectedTemplate] = useState("swap")
   const [code, setCode] = useState("")
   const [output, setOutput] = useState("")
@@ -876,11 +884,20 @@ performStaking()`,
                       </div>
                     </CardHeader>
                     <CardContent className="p-0">
-                      <Textarea
+                      <CodeEditor
                         value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                        className="min-h-[500px] font-mono text-sm border-0 resize-none focus-visible:ring-0"
+                        language="typescript"
                         placeholder="Real Saros SDK code will appear here..."
+                        onChange={(evn) => setCode(evn.target.value)}
+                        padding={15}
+                        style={{
+                          fontSize: 14,
+                          backgroundColor: theme === "dark" ? "#1e1e1e" : "#ffffff",
+                          fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+                          minHeight: 500,
+                          borderRadius: '0 0 0.5rem 0.5rem',
+                        }}
+                        className="min-h-[500px] border-0 focus-visible:ring-0"
                       />
                     </CardContent>
                   </Card>
