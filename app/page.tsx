@@ -45,7 +45,7 @@ const quoteData = await liquidityBookServices.getQuote({
               <Sparkles className="mr-1 h-3 w-3" />
               Fast-Track Your Solana Development
             </Badge> */}
-            <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="font-heading text-4xl font-bold text-white tracking-tight sm:text-6xl lg:text-7xl">
               Build on{" "}
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Saros</span>
             </h1>
