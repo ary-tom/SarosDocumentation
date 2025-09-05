@@ -80,8 +80,7 @@ export default function PlaygroundPage() {
       title: "Token Swap (Regular)",
       description: "Token swap using regular Saros SDK",
       code: `// Real Token Swap using Saros SDK
-const sarosSdk = window.sarosSdk;
-const { getSwapAmountSaros, swapSaros, genConnectionSolana } = sarosSdk;
+const { getSwapAmountSaros, swapSaros, genConnectionSolana } = sarosSdk.default;
 const { PublicKey } = solanaWeb3
 
 // Your wallet address (automatically filled when wallet is connected)
@@ -115,6 +114,21 @@ const POOL_PARAMS = {
   tokenIds: [C98_TOKEN.mintAddress, USDC_TOKEN.mintAddress],
 }
 
+// Add error handling for pool validation
+console.log("🔍 Validating pool address...");
+try {
+  const poolInfo = await getPoolInfo(connection, new PublicKey(POOL_PARAMS.address));
+  if (!poolInfo) {
+    console.error("❌ Pool not found or invalid. Please check the pool address.");
+    console.log("💡 Tip: Make sure you're using a valid pool address for the selected network (devnet).");
+    return { success: false, message: "Pool not found" };
+  }
+  console.log("✅ Pool validation successful");
+} catch (error) {
+  console.error("❌ Pool validation failed:", error.message);
+  return { success: false, message: "Pool validation failed" };
+}
+
 const SLIPPAGE = 0.5
 const SAROS_SWAP_PROGRAM_ADDRESS_V1 = new PublicKey("SSwapUtytfBdBn1b9NUGG6foMVPtcWgpRU32HToDUZr")
 
@@ -143,14 +157,25 @@ async function performSwap() {
     
     // Get swap quote
     console.log("⏳ Getting swap quote...")
-    const estSwap = await getSwapAmountSaros(
-      connection,
-      fromMint,
-      toMint,
-      fromAmount,
-      SLIPPAGE,
-      POOL_PARAMS
-    )
+    let estSwap;
+    try {
+      estSwap = await getSwapAmountSaros(
+        connection,
+        fromMint,
+        toMint,
+        fromAmount,
+        SLIPPAGE,
+        POOL_PARAMS
+      )
+    } catch (error) {
+      console.error("❌ Error getting swap quote:", error.message)
+      return { success: false, message: "Failed to get swap quote: " + error.message }
+    }
+    
+    if (!estSwap) {
+      console.error("❌ Swap quote is null or undefined")
+      return { success: false, message: "Failed to get swap quote - no data returned" }
+    }
     
     console.log("💱 Quote received:")
     console.log(\`  Amount In: \${fromAmount} \${C98_TOKEN.symbol}\`)
@@ -196,13 +221,12 @@ async function performSwap() {
 }
 
 // Run the swap
-performSwap()`,
+await performSwap()`,
     },
     dlmm: {
       title: "DLMM Swap",
       description: "Dynamic Liquidity Market Maker swap using DLMM SDK",
       code: `// Real DLMM Swap using Saros DLMM SDK
-const sarosDlmmSdk = window.sarosDlmmSdk;
 const { LiquidityBookServices, MODE } = sarosDlmmSdk
 const { PublicKey } = solanaWeb3
 
@@ -239,6 +263,22 @@ const POOL_PARAMS = {
   quoteToken: USDC_TOKEN,
   slippage: 0.5,
   hook: "", // config for reward, adding later
+}
+
+// Add error handling for pool validation
+console.log("🔍 Validating DLMM pool address...");
+try {
+  // Check if the pool exists by trying to get its data
+  const poolAccountInfo = await window.connection.getAccountInfo(new PublicKey(POOL_PARAMS.address));
+  if (!poolAccountInfo || poolAccountInfo.data.length === 0) {
+    console.error("❌ DLMM Pool not found or invalid. Please check the pool address.");
+    console.log("💡 Tip: Make sure you're using a valid DLMM pool address for the selected network (devnet).");
+    return { success: false, message: "DLMM Pool not found" };
+  }
+  console.log("✅ DLMM Pool validation successful");
+} catch (error) {
+  console.error("❌ DLMM Pool validation failed:", error.message);
+  return { success: false, message: "DLMM Pool validation failed" };
 }
 
 async function performDLMMSwap() {
@@ -324,14 +364,13 @@ async function performDLMMSwap() {
 }
 
 // Run the DLMM swap
-performDLMMSwap()`,
+await performDLMMSwap()`,
     },
     liquidity: {
       title: "Add Liquidity (Regular)",
       description: "Add liquidity to regular Saros pool",
       code: `// Real Add Liquidity using Saros SDK
-const sarosSdk = window.sarosSdk;
-const { depositAllTokenTypes, getPoolInfo, getTokenMintInfo, getTokenAccountInfo, convertBalanceToWei, genConnectionSolana } = sarosSdk
+const { depositAllTokenTypes, getPoolInfo, getTokenMintInfo, getTokenAccountInfo, convertBalanceToWei, genConnectionSolana } = sarosSdk.default
 const { PublicKey } = solanaWeb3
 
 // Your wallet address (automatically filled when wallet is connected)
@@ -367,6 +406,20 @@ const poolParams = {
   },
   tokenIds: [C98_TOKEN.mintAddress, USDC_TOKEN.mintAddress],
 }
+
+// Add error handling for pool validation
+console.log("🔍 Validating liquidity pool address...");
+try {
+  const poolAccountInfo = await getPoolInfo(
+    connection,
+    new PublicKey(poolParams.address)
+  );
+  if (!poolAccountInfo) {
+    console.error("❌ Liquidity pool not found or invalid. Please check the pool address.");
+    console.log("💡 Tip: Make sure you're using a valid pool address for the selected network (devnet).");
+    return { success: false, message: "Liquidity pool not found" };
+  }
+  console.log("✅ Liquidity pool validation successful");
 
 async function addLiquidity() {
   console.log("🚀 Starting add liquidity to Saros pool...")
@@ -464,15 +517,15 @@ async function addLiquidity() {
 }
 
 // Run add liquidity
-addLiquidity()`,
+await addLiquidity()`,
     },
     staking: {
       title: "Farm Staking",
       description: "Stake LP tokens in Saros farms",
       code: `// Real Farm Staking using Saros SDK
-const { SarosFarmService } = sarosSdk
-const { default: BN } = await import('bn.js')
+const { SarosFarmService } = sarosSdk.default
 const { PublicKey } = solanaWeb3
+const BN = window.sarosSdk.default.BN || (await import('bn.js')).default
 
 // Your wallet address (automatically filled when wallet is connected)
 const YOUR_WALLET = "YOUR_WALLET_ADDRESS"
@@ -573,7 +626,7 @@ async function performStaking() {
 }
 
 // Run staking operations
-performStaking()`,
+await performStaking()`,
     },
   }
 
