@@ -7,7 +7,10 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowRight, Package, Zap, Code } from "lucide-react"
 import Link from "next/link"
 import { PublicKey } from "@solana/web3.js"
-import { getSwapAmountSaros, swapSaros, genConnectionSolana } from "@saros-finance/sdk";
+import sarosSdk from "@saros-finance/sdk";
+
+// Extract the functions we need from the default export
+const { getSwapAmountSaros, swapSaros, genConnectionSolana } = sarosSdk;
 
 const USDC_TOKEN = {
   id: "usd-coin",

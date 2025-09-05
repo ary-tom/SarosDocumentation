@@ -72,7 +72,8 @@ export default function PlaygroundPage() {
       title: "Token Swap (Regular)",
       description: "Token swap using regular Saros SDK",
       code: `// Real Token Swap using Saros SDK
-const { getSwapAmountSaros, swapSaros, genConnectionSolana } = sarosSdk
+const sarosSdk = window.sarosSdk;
+const { getSwapAmountSaros, swapSaros, genConnectionSolana } = sarosSdk;
 const { PublicKey } = solanaWeb3
 
 // Your wallet address (automatically filled when wallet is connected)
@@ -193,6 +194,7 @@ performSwap()`,
       title: "DLMM Swap",
       description: "Dynamic Liquidity Market Maker swap using DLMM SDK",
       code: `// Real DLMM Swap using Saros DLMM SDK
+const sarosDlmmSdk = window.sarosDlmmSdk;
 const { LiquidityBookServices, MODE } = sarosDlmmSdk
 const { PublicKey } = solanaWeb3
 
@@ -320,6 +322,7 @@ performDLMMSwap()`,
       title: "Add Liquidity (Regular)",
       description: "Add liquidity to regular Saros pool",
       code: `// Real Add Liquidity using Saros SDK
+const sarosSdk = window.sarosSdk;
 const { depositAllTokenTypes, getPoolInfo, getTokenMintInfo, getTokenAccountInfo, convertBalanceToWei, genConnectionSolana } = sarosSdk
 const { PublicKey } = solanaWeb3
 

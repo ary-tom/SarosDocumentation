@@ -25,3 +25,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# tests
+test-imports.js
+test-sdk.js
+test-sdk.mjs
+
+

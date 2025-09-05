@@ -5,16 +5,19 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { SolanaWalletProvider } from "@/components/wallet-provider"
 import "./globals.css"
 
+// Fallback fonts in case Google Fonts fails
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-space-grotesk",
+  fallback: ["sans-serif"],
 })
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-dm-sans",
+  fallback: ["sans-serif"],
 })
 
 export const metadata: Metadata = {

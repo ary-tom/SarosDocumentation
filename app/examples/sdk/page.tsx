@@ -20,8 +20,10 @@ export default function SDKExamplePage() {
     swap: {
       title: "Swap",
       description: "Swap tokens using the Saros SDK.",
-      code: `import { getSwapAmountSaros, swapSaros, genConnectionSolana } from '@saros-finance/sdk';
+      code: `import sarosSdk from '@saros-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
+
+const { getSwapAmountSaros, swapSaros, genConnectionSolana } = sarosSdk;
 
 const connection = genConnectionSolana();
 const accountSol = 'YOUR_WALLET_PUBLIC_KEY';
@@ -92,8 +94,10 @@ performSwap();
     addLiquidity: {
       title: "Add Liquidity",
       description: "Add liquidity to a pool.",
-      code: `import { getPoolInfo, depositAllTokenTypes, genConnectionSolana, convertBalanceToWei, getTokenMintInfo, getTokenAccountInfo } from '@saros-finance/sdk';
+      code: `import sarosSdk from '@saros-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
+
+const { getPoolInfo, depositAllTokenTypes, genConnectionSolana, convertBalanceToWei, getTokenMintInfo, getTokenAccountInfo } = sarosSdk;
 
 // ... (setup connection, tokens, etc.)
 
@@ -128,8 +132,10 @@ addLiquidity();
     removeLiquidity: {
       title: "Remove Liquidity",
       description: "Remove liquidity from a pool.",
-      code: `import { getPoolInfo, withdrawAllTokenTypes, genConnectionSolana, getInfoTokenByMint, getTokenAccountInfo } from '@saros-finance/sdk';
+      code: `import sarosSdk from '@saros-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
+
+const { getPoolInfo, withdrawAllTokenTypes, genConnectionSolana, getInfoTokenByMint, getTokenAccountInfo } = sarosSdk;
 
 // ... (setup connection, tokens, etc.)
 
@@ -166,11 +172,11 @@ removeLiquidity();
     staking: {
       title: "Staking",
       description: "Stake tokens and earn rewards.",
-      code: `import sarosSdk, { genConnectionSolana } from '@saros-finance/sdk';
+      code: `import sarosSdk from '@saros-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
 import BN from 'bn.js';
 
-const { SarosStakeServices } = sarosSdk;
+const { SarosStakeServices, genConnectionSolana } = sarosSdk;
 const connection = genConnectionSolana();
 const accountSol = 'YOUR_WALLET_PUBLIC_KEY';
 
@@ -198,11 +204,11 @@ stake();
     farming: {
       title: "Farming",
       description: "Farm LP tokens and earn rewards.",
-      code: `import sarosSdk, { genConnectionSolana } from '@saros-finance/sdk';
+      code: `import sarosSdk from '@saros-finance/sdk';
 import { PublicKey } from '@solana/web3.js';
 import BN from 'bn.js';
 
-const { SarosFarmService } = sarosSdk;
+const { SarosFarmService, genConnectionSolana } = sarosSdk;
 const connection = genConnectionSolana();
 const accountSol = 'YOUR_WALLET_PUBLIC_KEY';
 

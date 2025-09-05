@@ -1,2 +1,1 @@
-overrides:
-  '@saros-finance/sdk': link:../docs/saros-sdk
+# No workspace overrides needed
